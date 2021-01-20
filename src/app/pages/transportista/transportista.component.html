@@ -1,0 +1,159 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Listado Transportistas</h4>
+                        <p class="category"></p>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let t of trans; let i=index;">
+                                <tr>
+                                    <td>{{t.name}}</td>
+                                    <td class="text-eye">{{t.phone}}</td>
+                                    <td class="td-actions text-center">
+                                        <a (click)="getDataTrans(i)" rel="tooltip" title="Ver Detalle" data-toggle="modal" data-target="#view" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a (click)="questionYN(i)" rel="tooltip" title="Eliminar" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <caption>
+                    <button class="btn btn-icon btn-round btn-twitter" data-toggle="modal" data-target="#myModal1" style="position: fixed;  bottom: 40px; right: 30px; border-radius: 100% !important; float: right;">
+                        <img src="assets/img/icons/mas.png">
+                      </button>
+                </caption>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-mini modal-primary" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form #add="ngForm" id="addForm" (ngSubmit)="addTrans(add)">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Agregar
+                    <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="content">
+                        <div class="form-group">
+                            <input type="text" [ngModel]="ciRuc" name="ciRuc" placeholder="Cédula o Ruc" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" [ngModel]="name" name="name" placeholder="Nombre" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" [ngModel]="phone" name="phone" placeholder="Teléfono" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" [ngModel]="email" name="email" placeholder="Correo" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" [ngModel]="password" name="password" placeholder="Contraseña" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" readonly [ngModel]="business" name="business" placeholder="Empresa" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn-simple">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade modal-mini modal-primary" id="view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form id="viewForm">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Ver Datos
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">CI/Ruc:</label>
+                                <div class="col-sm-9">
+                                    <label class="control-label">{{dataTrans.ciRuc}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">Nombre:</label>
+                                <div class="col-sm-9">
+                                    <label class="control-label">{{dataTrans.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">Teléfono:</label>
+                                <div class="col-sm-9">
+                                    <label class="control-label">{{dataTrans.phone}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">Correo:</label>
+                                <div class="col-sm-9">
+                                    <label class="control-label">{{dataTrans.email}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn-simple" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade modal-mini modal-primary" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Eliminar
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="content">
+                        <label>¿Seguro desea eliminar a {{ dataTrans1.name }}?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-simple" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-info btn-simple" (click)="deleteTrans()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

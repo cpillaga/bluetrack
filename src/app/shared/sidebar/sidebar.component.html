@@ -1,0 +1,79 @@
+<div class="sidebar" data-color="bluetrack" data-image="../assets/img/full-screen-image-3.jpg">
+    <div class="logo" style="text-align: center;">
+        <img src="../assets/img/blue/blueTrackWF.png" />
+    </div>
+
+    <div class="sidebar-wrapper">
+        <div class="user">
+            <div class="info">
+                <div class="photo">
+                    <img src="../assets/img/blue/avatar.png" />
+                </div>
+
+                <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+                    <span>
+                        {{ nombreEmpresa }}
+                        <b class="caret"></b>
+                    </span>
+                </a>
+
+                <div class="collapse" id="collapseExample">
+                    <ul class="nav">
+                        <li>
+                            <a href="#pablo">
+                                <span class="sidebar-mini">MP</span>
+                                <span class="sidebar-normal">Mi Perfil</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#pablo">
+                                <span class="sidebar-mini">EP</span>
+                                <span class="sidebar-normal">Editar Perfil</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav">
+            <li routerLinkActive="active">
+                <a routerLink="/home">
+                    <i class="pe-7s-home"></i>
+                    <p>Inicio</p>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#componentsExamples">
+                    <i class="pe-7s-note2"></i>
+                    <p>Envíos</p>
+                </a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/carrier">
+                    <i class="pe-7s-car"></i>
+                    <p>Transportistas</p>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#tablesExamples">
+                    <i class="pe-7s-users"></i>
+                    <p>Clientes</p>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#mapsExamples">
+                    <i class="pe-7s-news-paper"></i>
+                    <p>Convenios</p>
+                </a>
+            </li>
+            <li>
+                <a href="charts.html">
+                    <i class="pe-7s-graph1"></i>
+                    <p>Reportes</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

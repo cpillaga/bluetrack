@@ -25,7 +25,7 @@ export class InicioComponent implements OnInit {
 
   ngOnInit() {
 
-    this._requestService.setSolicitud();
+    // this._requestService.setSolicitud();
 
     // setTimeout(() => {
       // this._requestService.getSolicitudWS();

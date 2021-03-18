@@ -30,7 +30,7 @@ export class InicioComponent implements OnInit {
     // setTimeout(() => {
       // this._requestService.getSolicitudWS();
 
-      // this.getRequest();
+      this.getRequest();
     // }, 500);
   }
 
@@ -40,18 +40,19 @@ export class InicioComponent implements OnInit {
     this.detailReq = null;
 
     this._requestService.getRequestPendiente(this.idSucursal).subscribe(resp => {
-      this.request = resp;
-      
+      console.log(resp);
 
+      if (resp.length > 0) {
+        this.request = resp;
+        for (let i = 0; i < this.request.length; i++) {
+          this._requestService.getDetailRequest(this.request[i]._id).subscribe(resp1 => {
+            this.detailReq = resp1;
 
-      for (let i = 0; i < this.request.length; i++) {
-        this._requestService.getDetailRequest(this.request[i]._id).subscribe(resp1 => {
-          this.detailReq = resp1;
-
-          for (let j = 0; j < resp1.length; j++) {
-            this.arrayDR.push(resp1[j]);
-          }
-        });
+            for (let j = 0; j < resp1.length; j++) {
+              this.arrayDR.push(resp1[j]);
+            }
+          });
+        }
       }
     });
   }

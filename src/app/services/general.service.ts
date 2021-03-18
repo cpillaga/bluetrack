@@ -40,7 +40,6 @@ export class GeneralService{
     }
 
     getSucursal(idSuc){
-        console.log("Suc: " + idSuc);
         let token = localStorage.getItem('tokenBT');
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',

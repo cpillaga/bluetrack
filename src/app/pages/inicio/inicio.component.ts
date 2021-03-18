@@ -42,18 +42,19 @@ export class InicioComponent implements OnInit {
     this._requestService.getRequestPendiente(this.idSucursal).subscribe(resp => {
       console.log(resp);
 
-      if (resp.length > 0) {
-        this.request = resp;
-        for (let i = 0; i < this.request.length; i++) {
-          this._requestService.getDetailRequest(this.request[i]._id).subscribe(resp1 => {
-            this.detailReq = resp1;
+      // if (resp.length > 0) {
+      //   this.request = resp;
 
-            for (let j = 0; j < resp1.length; j++) {
-              this.arrayDR.push(resp1[j]);
-            }
-          });
-        }
-      }
+      //   for (let i = 0; i < this.request.length; i++) {
+      //     this._requestService.getDetailRequest(this.request[i]._id).subscribe(resp1 => {
+      //       this.detailReq = resp1;
+
+      //       for (let j = 0; j < resp1.length; j++) {
+      //         this.arrayDR.push(resp1[j]);
+      //       }
+      //     });
+      //   }
+      // }
     });
   }
 

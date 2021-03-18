@@ -56,8 +56,8 @@
                             <tbody *ngFor="let req of arrayDR; let i = index">
                                 <tr>
                                     <td class="text-center">{{ i +1 }}</td>
-                                    <td>{{ req.request.client.name }}</td>
-                                    <td>{{ req.request.client.city }} - {{req.receiver.city}}</td>
+                                    <td>{{ req.client }}</td>
+                                    <td>{{ req.client }} - </td>
                                     <td>{{ req.description }}</td>
                                     <td class="td-actions text-center">
                                         <a href="#" rel="tooltip" title="Aceptar" class="btn btn-success btn-simple btn-xs">

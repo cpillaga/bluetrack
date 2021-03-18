@@ -30,7 +30,7 @@ export class InicioComponent implements OnInit {
     // setTimeout(() => {
       // this._requestService.getSolicitudWS();
 
-      this.getRequest();
+      // this.getRequest();
     // }, 500);
   }
 
@@ -41,6 +41,8 @@ export class InicioComponent implements OnInit {
 
     this._requestService.getRequestPendiente(this.idSucursal).subscribe(resp => {
       this.request = resp;
+      
+
 
       for (let i = 0; i < this.request.length; i++) {
         this._requestService.getDetailRequest(this.request[i]._id).subscribe(resp1 => {

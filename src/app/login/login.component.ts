@@ -28,17 +28,16 @@ export class LoginComponent implements OnInit {
   }
 
   public login(forma: NgForm){
-   
+
     if(forma.invalid) {
       return;
     }
-  
+
     this._autenticacionService.login(forma.value.email, forma.value.password)
       .subscribe(correcto => {
 
         console.log(correcto);
         this._generalService.getSucursal(correcto.user.branchOffice).subscribe(resp => {
-          console.log(resp);
           if(resp[0].status == "true" && resp[0].business.status == "true" ){
 
             localStorage.setItem("sucursalBT", JSON.stringify(resp[0]));

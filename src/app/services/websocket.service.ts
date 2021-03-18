@@ -28,7 +28,7 @@ export class WebSocketService {
       this.socketStatus = false;
     });
 
-    this.emit('login', {sala: this.idSucursal });
+    // this.emit('login', {sala: this.idSucursal });
 
   }
 

@@ -10,7 +10,7 @@ import { WebSocketService } from '../services/websocket.service';
 export class PagesComponent implements OnInit {
 
   constructor(
-    public wbSocket: WebSocketService
+    // public wbSocket: WebSocketService
   ) { }
 
   ngOnInit() {

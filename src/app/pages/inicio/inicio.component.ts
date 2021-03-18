@@ -18,7 +18,7 @@ export class InicioComponent implements OnInit {
   arrayDR: DetailRequest[] = [];
 
   constructor(
-    public wbSocket: WebSocketService,
+    // public wbSocket: WebSocketService,
     public _requestService: SolicitudService
   ) { 
   }
@@ -27,11 +27,11 @@ export class InicioComponent implements OnInit {
 
     this._requestService.setSolicitud();
 
-    setTimeout(() => {
-      this._requestService.getSolicitudWS();
-      
-      // this.getRequest();
-    }, 500);
+    // setTimeout(() => {
+      // this._requestService.getSolicitudWS();
+
+      this.getRequest();
+    // }, 500);
   }
 
   getRequest(){

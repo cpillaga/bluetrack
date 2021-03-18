@@ -28,8 +28,6 @@ export class WebSocketService {
       this.socketStatus = false;
     });
 
-    // this.emit('login', {sala: this.idSucursal });
-
   }
 
   emit(evento: string, payload?: any, callback?: Function ){

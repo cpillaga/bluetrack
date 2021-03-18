@@ -14,6 +14,10 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { TransportistaComponent } from './transportista/transportista.component';
+import { SolicitudComponent } from './solicitud/solicitud.component';
+import { OperadorComponent } from './operador/operador.component';
+import { ConvenioComponent } from './convenio/convenio.component';
+
 
 @NgModule({
     declarations: [
@@ -23,6 +27,9 @@ import { TransportistaComponent } from './transportista/transportista.component'
         NavbarComponent,
         FooterComponent,
         TransportistaComponent,
+        SolicitudComponent,
+        OperadorComponent,
+        ConvenioComponent,
     ],
     exports: [
         PagesComponent,
@@ -37,7 +44,7 @@ import { TransportistaComponent } from './transportista/transportista.component'
         PAGES_ROUTES,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
     ]
 })
 

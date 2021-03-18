@@ -1,11 +1,13 @@
-export class Carrier {
+export class User {
     constructor(
-        public ciRuc: string,
         public name: string,
-        public phone: string,
         public email: string,
+        public user: string,
         public password: string,
-        public business: string,
+        public role: string,
+        public phone: string,
+        public address: string,
+        public branchOffice: string,
         public _id?: string,
     ){}
   }

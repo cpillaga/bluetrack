@@ -1,4 +1,7 @@
 export const URL_SERVICE = {
-    url: 'https://bluetrack1.herokuapp.com',
-    ip: '127.0.0.1'
+    // url: 'https://phy-bluetrack.herokuapp.com',
+    // ws: 'https://phy-bluetrack.herokuapp.com'
+
+    url: 'http://localhost:3000',
+    ws: 'http://localhost:3000'
 };

@@ -26,6 +26,7 @@
         "jspdf": "^1.5.3",
         "moment": "^2.29.1",
         "ngx-toastr": "^13.1.0",
+        "ngx-socket-io": "^3.0.1",
         "nouislider": "^14.6.2",
         "pdfmake": "^0.1.68",
         "pdfmake-wrapper": "^2.0.0",

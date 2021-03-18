@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Transportistas: {{contTrans}}</h4>
+                        <h4 class="title">Operador Logístico: {{contTrans}}</h4>
                         <p class="category"></p>
                     </div>
                     <div class="content table-responsive table-full-width">
@@ -26,13 +26,9 @@
                                         <a (click)="getDataTrans(i)" rel="tooltip" title="Ver Detalle" data-toggle="modal" data-target="#view" class="btn btn-primary btn-simple btn-xs">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <button type="button" *ngIf="t.status === 'true'" rel="tooltip" title="Eliminar" (click)="questionYN(i)" class="btn btn-danger btn-simple btn-xs">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                        <!--  -->
-                                        <button type="button" *ngIf="t.status === 'false'" rel="tooltip" title="Habilitar" (click)="questionYN(i)" class="btn btn-success btn-simple btn-xs">
-                                            <i class="fa fa-check"></i>
-                                        </button>
+                                        <!-- <a (click)="questionYN(i)" rel="tooltip" title="Eliminar" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="fa fa-times"></i>
+                                        </a> -->
                                     </td>
                                 </tr>
                             </tbody>
@@ -51,7 +47,7 @@
 
 <div class="modal fade modal-mini modal-primary" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 400px;">
-        <form #add="ngForm" id="addForm" (ngSubmit)="addTrans(add)">
+        <form #add="ngForm" id="addForm" (ngSubmit)="addOperador(add)">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     Agregar
@@ -170,29 +166,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-info btn-simple" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="modal fade modal-mini modal-primary" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <form>
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    Eliminar
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body text-center">
-
-                    <div class="content">
-                        <label>¿Seguro desea {{texto}} a {{ dataTrans1.name }}?</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger btn-simple" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-info btn-simple" (click)="deleteTrans()">Aceptar</button>
                 </div>
             </div>
         </form>

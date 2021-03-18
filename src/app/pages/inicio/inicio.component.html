@@ -12,9 +12,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th >Nombre</th>
-                                    <th >Ruta</th>
-                                    <th >Concepto</th>
+                                    <th>Nombre</th>
+                                    <th>Ruta</th>
+                                    <th>Concepto</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -47,18 +47,18 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th >Nombre</th>
-                                    <th >Ruta</th>
-                                    <th >Concepto</th>
+                                    <th>Nombre</th>
+                                    <th>Ruta</th>
+                                    <th>Concepto</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody *ngFor="let req of arrayDR; let i = index">
                                 <tr>
-                                    <td class="text-center">1</td>
-                                    <td>Jorge Pillaga</td>
-                                    <td>Cuenca - Quito</td>
-                                    <td>Documentos</td>
+                                    <td class="text-center">{{ i +1 }}</td>
+                                    <td>{{ req.request.client.name }}</td>
+                                    <td>{{ req.request.client.city }} - {{req.receiver.city}}</td>
+                                    <td>{{ req.description }}</td>
                                     <td class="td-actions text-center">
                                         <a href="#" rel="tooltip" title="Aceptar" class="btn btn-success btn-simple btn-xs">
                                             <i class="fa fa-check"></i>

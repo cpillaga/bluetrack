@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
+import { URL_SERVICE } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,15 @@ export class AutenticacionService {
     private http: HttpClient
   ) { }
 
-  login(email, password) {
+  login(user, password) {
     const headers = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    const url = 'https://bluetrack1.herokuapp.com/business/login';
+    const url = URL_SERVICE.url + '/user/login';
 
     const body = {
-        email,
+        user,
         password
     };
 

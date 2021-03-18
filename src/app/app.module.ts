@@ -12,6 +12,15 @@ import { AutenticacionService } from './services/autenticacion.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneralService } from './services/general.service';
 import { TransService } from './services/transportista.service';
+import { WebSocketService } from './services/websocket.service';
+
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { URL_SERVICE } from './config/config';
+import { SolicitudService } from './services/solicitud.service';
+import { ClientService } from './services/client.service';
+import { ConvenioService } from './services/convenio.service';
+
+const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
 
 @NgModule({
   declarations: [
@@ -25,12 +34,17 @@ import { TransService } from './services/transportista.service';
     FormsModule,
     ReactiveFormsModule,
     PagesModule,
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     AutenticacionService,
     GeneralService,
-    TransService
+    TransService,
+    SolicitudService,
+    WebSocketService,
+    ClientService,
+    ConvenioService
   ],
   bootstrap: [AppComponent]
 

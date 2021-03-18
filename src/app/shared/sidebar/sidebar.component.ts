@@ -8,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
 
   public nombreEmpresa: string;
+  public nombreSucursal: string;
   public empresa: any;
+  public sucursal: any;
   constructor() { }
 
   ngOnInit() {
-    this.empresa = JSON.parse(localStorage.getItem("empresa"));
-
+    this.empresa = JSON.parse(localStorage.getItem("empresaBT"));
+    this.sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
+    this.nombreSucursal = this.sucursal['name'];
     this.nombreEmpresa = this.empresa['businessName'];
   }
 
-  
 }

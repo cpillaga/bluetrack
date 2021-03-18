@@ -1,0 +1,140 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Convenios: {{contConv}}</h4>
+                        <p class="category"></p>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Img</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">Cliente</th>
+                                    <th class="text-center">Origen</th>
+                                    <th class="text-center">Destino</th>
+                                    <th class="text-center">Precio</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngFor="let conv of convenios; let i=index;">
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="{{conv.img}}"><img src="{{conv.img}}" height="36" width="36" style="border-radius: 100%;" alt="bluetrack"></a>
+                                    </td>
+                                    <td class="text-center">{{conv.description}}</td>
+                                    <td class="text-center">{{conv.client.name}}</td>
+                                    <td class="text-center">{{conv.cantonOrigen.description}}</td>
+                                    <td class="text-center">{{conv.cantonDestino.description}}</td>
+                                    <td class="text-center"> $ {{conv.price}}</td>
+                                    <td class="td-actions text-right">
+                                        <a rel="tooltip" title="Ver Detalle" data-toggle="modal" data-target="#view" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <!-- <a (click)="questionYN(i)" rel="tooltip" title="Eliminar" data-toggle="modal" data-target="#delete" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="fa fa-times"></i>
+                                        </a> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <caption>
+                    <button class="btn btn-icon btn-round btn-twitter" data-toggle="modal" data-target="#addConvenio" style="position: fixed;  bottom: 40px; right: 30px; border-radius: 100% !important; float: right;">
+                        <img src="assets/img/icons/mas.png">
+                      </button>
+                </caption>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade modal-mini modal-primary" id="addConvenio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                Agregar Convenio
+                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form class="form-horizontal" #updEmp="ngForm" (ngSubmit)="addConvenio(updEmp);" autocomplete="off">
+                <div class="modal-body text-center">
+                    <div class="wizard-container" style="width: 100%; height: 100%;">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <div class="picture-container">
+                                        <div class="picture">
+                                            <img *ngIf="!imgTemp" src="assets/img/noFoto.png" class="picture-src" id="wizardPicturePreview1" title="" />
+                                            <img *ngIf="imgTemp" [src]="imgTemp" class="picture-src" id="wizardPicturePreview1" title="" />
+
+                                            <input type="file" id="wizard-picture" (change)="selectImage($event.target.files[0])">
+                                        </div>
+                                        <h6 id="noImage" class="description">Cambiar Imagen</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <br> <br>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Descripción:</label>
+                                <div class="col-md-4">
+                                    <input type="text" placeholder="Descripción" [ngModel]="descripcion" onkeypress="return sinComillas(event);" class="form-control" id="descripcion" name="descripcion">
+                                </div>
+                                <label class="col-md-2 col-form-label" style="margin-top: 10px;">Provincia:</label>
+                                <div class="col-md-4">
+                                    <!-- <div class="form-group has-default"> -->
+                                    <select id="proveedor" class="form-control custom-select col-md-10" #prov id="provincia" name="provincia" ngModel data-title="Seleccionar" (change)="getCanton(prov.value);" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
+                                            <option value="empty" hidden>Seleccionar</option>
+                                            <option  *ngFor="let prov of provincias"  [value]="prov._id">{{prov.descripcion}}</option>
+                                        </select>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Cliente:</label>
+                                <div class="col-md-4">
+                                    <input type="text" placeholder="Correo cliente" ngModel onkeypress="return sinComillas(event);" class="form-control" id="cliente" name="cliente">
+                                </div>
+                                <label class="col-md-2 col-form-label" style="margin-top: 10px;">Cantón:</label>
+                                <div class="col-md-4">
+                                    <!-- <div class="form-group has-default"> -->
+                                    <select id="proveedor" class="form-control custom-select col-md-10" id="canton" name="canton" ngModel data-title="Seleccionar" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
+                                            <option value="empty" hidden>Seleccionar</option>
+                                            <option  *ngFor="let cant of cantones" [value]="cant._id">{{cant.description}}</option>
+                                        </select>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Precio:</label>
+                                <div class="col-md-4">
+                                    <input type="text" placeholder="Correo cliente" ngModel onkeypress="return filterFloat(event, this);" class="form-control" id="precio" name="precio">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row col-md-12">
+                        <div class="form-group">
+                            <label class="col-md-6"></label>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-fill btn-info">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -30,7 +30,7 @@
 
 <body>
     <app-root></app-root>
-<script src="runtime.e227d1a0e31cbccbf8ec.js" defer></script><script src="polyfills.e888f2e16c9cd1e39bca.js" defer></script><script src="main.be843fbfbf5a30a681b4.js" defer></script></body>
+<script src="runtime.e227d1a0e31cbccbf8ec.js" defer></script><script src="polyfills.92c097a6a57e5030dd80.js" defer></script><script src="main.32162ed3b6f336f1b310.js" defer></script></body>
 
 <!--   Core JS Files  -->
 <script src="assets/js/jquery.min.js" type="text/javascript"></script>
@@ -65,9 +65,6 @@
 <!-- Vector Map plugin -->
 <script src="assets/js/jquery-jvectormap.js"></script>
 
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-
 <!-- Wizard Plugin    -->
 <script src="assets/js/jquery.bootstrap.wizard.min.js"></script>
 
@@ -92,6 +89,87 @@
             $('.card').removeClass('card-hidden');
         }, 700)
     });
+</script>
+
+<script>
+    function soloNumeros(e){
+		var key = window.Event ? e.which : e.keyCode;
+		if ((key >= 48 && key <= 57) || (key==13)){
+			return true;
+		}else{
+			swal("Error", "Ingresar solo números", "error");
+			e.preventDefault();
+		}
+	}
+
+	function soloLetras(e){
+		key = e.keyCode || e.which;
+		tecla = String.fromCharCode(key).toLowerCase();
+		letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+		especiales = "8-37-39-46";
+
+		tecla_especial = false
+		for(var i in especiales){
+			if(key == especiales[i]){
+				tecla_especial = true;
+				break;
+			}
+		}
+
+		if(letras.indexOf(tecla)==-1 && !tecla_especial){
+			swal("Error", "Ingresar solo letras", "error");
+			e.preventDefault();
+		}
+	}
+
+    function sinComillas(e){
+        var key = window.Event ? e.which : e.keyCode;
+
+		if ((key == 39 || key == 34)){
+            swal("Error", "No se puede ingresar comillas en este campo", "error");
+			e.preventDefault();
+        }else{
+			return true;
+		}
+	}
+
+    function filterFloat(evt,input){
+        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+        var key = window.Event ? evt.which : evt.keyCode;    
+        var chark = String.fromCharCode(key);
+        var tempValue = input.value+chark;
+        if(key >= 48 && key <= 57){
+            if(filter(tempValue)=== false){
+                swal("Error", "Solo se permite 2 decimales", "error");
+                return false;
+            }else{       
+                return true;
+            }
+        }else{
+            if(key == 8 || key == 13 || key == 0) {     
+                return true;              
+            }else if(key == 46){
+                    if(filter(tempValue)=== false){
+                        swal("Error", "No se puede iniciar con un punto, y debe tener solo un punto decimal", "error")
+                        return false;
+                    }else{       
+                        return true;
+                    }
+            }else{
+                return false;
+            }
+        }
+    }
+
+    function filter(__val__){
+        var preg = /^([0-9]+\.?[0-9]{0,2})$/; 
+        if(preg.test(__val__) === true){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 </script>
 
 </html>

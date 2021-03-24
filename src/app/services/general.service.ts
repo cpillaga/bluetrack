@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICE } from '../config/config';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
+
+import { URL_SERVICE } from '../config/config';
 
 @Injectable()
 export class GeneralService{
@@ -48,38 +49,37 @@ export class GeneralService{
 
         const url = URL_SERVICE.url + '/branchOffice/suc/' + idSuc;
 
-        return this.http.get(url, { headers })
-            .pipe(map((data: any) => {
-                return data.branchOffice;
-            }));
+        return this.http.get( url, {headers} )
+            .map( (resp: any) =>
+                resp.branchOffice
+            );
     }
 
-    
-  getProvincia(){
-    let token = localStorage.getItem('tokenABT');
-    const headers = new HttpHeaders({
-      token
-    });
+    getProvincia(){
+        let token = localStorage.getItem('tokenBT');
+        const headers = new HttpHeaders({
+            token
+        });
 
-    const url = URL_SERVICE.url + '/province';
+        const url = URL_SERVICE.url + '/province';
 
-    return this.http.get( url, {headers} )
-                .map( (resp: any) =>
-                    resp.province
-                );
-  }
+        return this.http.get( url, {headers} )
+                    .map( (resp: any) =>
+                        resp.province
+                    );
+    }
 
-  getCanton(idProv){
-    let token = localStorage.getItem('tokenABT');
-    const headers = new HttpHeaders({
-      token
-    });
+    getCanton(idProv){
+        let token = localStorage.getItem('tokenBT');
+        const headers = new HttpHeaders({
+            token
+        });
 
-    const url = URL_SERVICE.url + '/canton/' + idProv;
+        const url = URL_SERVICE.url + '/canton/' + idProv;
 
-    return this.http.get( url, {headers} )
-                .map( (resp: any) =>
-                    resp.canton
-                );
-  }
+        return this.http.get( url, {headers} )
+                    .map( (resp: any) =>
+                        resp.canton
+                    );
+    }
 }

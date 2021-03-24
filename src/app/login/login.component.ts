@@ -35,18 +35,20 @@ export class LoginComponent implements OnInit {
 
     this._autenticacionService.login(forma.value.email, forma.value.password)
       .subscribe(correcto => {
-
+        localStorage.setItem("tokenBT", correcto.token);
         this._generalService.getSucursal(correcto.user.branchOffice).subscribe(resp => {
           if(resp[0].status == "true" && resp[0].business.status == "true" ){
-
             localStorage.setItem("sucursalBT", JSON.stringify(resp[0]));
             localStorage.setItem("empresaBT", JSON.stringify(resp[0].business));
-            localStorage.setItem("tokenBT", correcto.token);
             localStorage.setItem("idBT", correcto.user._id);
             this.router.navigate(['/home']);
           }else{
+            localStorage.removeItem('tokenBT');
             this.router.navigate(['/login']);
           }
+        }, (err) => {
+          console.log("error");
+          console.log(err);
         });
       });
   }

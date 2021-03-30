@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { URL_SERVICE } from '../config/config';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
-import { User } from '../models/carrier.model';
+import { Carrier } from '../models/carrier.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class TransService {
     private http: HttpClient
   ) { }
 
-    addTrans(carrier: User){
+    addTrans(carrier: Carrier){
         let token = localStorage.getItem('tokenBT');
 
         const headers = new HttpHeaders({
@@ -22,7 +22,7 @@ export class TransService {
             token
         });
 
-        const url = URL_SERVICE.url + '/user';
+        const url = URL_SERVICE.url + '/carrier';
 
         return this.http.post(url, carrier, { headers }).pipe(map((data: any) => data));
     }
@@ -34,10 +34,10 @@ export class TransService {
           token
       });
 
-      const url = URL_SERVICE.url + '/user/' + id;
+      const url = URL_SERVICE.url + '/carrier/' + id;
       return this.http.get(url, { headers })
           .pipe(map((data: any) => {
-            return data.user;
+            return data.carrier;
           }));
     }
 
@@ -49,7 +49,7 @@ export class TransService {
           token
       });
 
-      const url = URL_SERVICE.url + '/user/' + id;
+      const url = URL_SERVICE.url + '/carrier/' + id;
 
       return this.http.delete(url, { headers }).pipe(map((data: any) => data));
     }
@@ -62,7 +62,7 @@ export class TransService {
           token
       });
 
-      const url = URL_SERVICE.url + '/user/habilitar/' + id;
+      const url = URL_SERVICE.url + '/carrier/habilitar/' + id;
 
       return this.http.delete(url, { headers }).pipe(map((data: any) => data));
     }

@@ -8,7 +8,7 @@ import { RegisterComponent } from './login/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesModule } from './pages/pages.module';
 
-import { AutenticacionService } from './services/autenticacion.service';
+import { OperatorService } from './services/operator.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneralService } from './services/general.service';
 import { TransService } from './services/transportista.service';
@@ -38,7 +38,7 @@ const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
     SocketIoModule.forRoot(config),
   ],
   providers: [
-    AutenticacionService,
+    OperatorService,
     GeneralService,
     TransService,
     SolicitudService,

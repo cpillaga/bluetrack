@@ -1,4 +1,4 @@
-export class Carrier {
+export class Operator {
     constructor(
         public name: string,
         public email: string,
@@ -7,7 +7,7 @@ export class Carrier {
         public role: string,
         public phone: string,
         public address: string,
-        public business: string,
+        public branchOffice: string,
         public _id?: string,
     ){}
   }

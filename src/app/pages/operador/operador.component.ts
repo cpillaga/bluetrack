@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from '../../models/carrier.model';
+import { Operator } from '../../models/operator.model';
 import { GeneralService } from '../../services/general.service';
-import { TransService } from '../../services/transportista.service';
 import { NgForm } from '@angular/forms';
+import { OperatorService } from '../../services/operator.service';
 
 @Component({
   selector: 'app-operador',
@@ -13,17 +13,18 @@ export class OperadorComponent implements OnInit {
 
   public name: string;
   public _id: string;
-  public trans: User[] = [];
+  public operator: Operator[] = [];
   public branchOffice: string;
-  public dataTrans: User = new User(null, null,null,null, null,null,null,null);
-  public dataTrans1: User = new User(null, null,null,null, null,null,null,null);;
+  public dataOperator: Operator = new Operator(null, null,null,null, null,null,null,null);
+  public dataOperator1: Operator = new Operator(null, null,null,null, null,null,null,null);;
   public showModalBox: boolean = false;
   public contTrans = 0;  
+  
   @ViewChild('closebutton',  {static: false}) closebutton;
   
   constructor(
     public _generalService: GeneralService,
-    public _transService: TransService
+    public _operatorService: OperatorService
   ) { }
 
   ngOnInit(): void {
@@ -34,23 +35,18 @@ export class OperadorComponent implements OnInit {
 
   public getOperador(){
     this.contTrans = 0;
-    this._transService.getTrans(this.branchOffice['_id']).subscribe(data => {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].role == 'Operador') {
-            this.trans[this.contTrans] = data[i];
-            this.contTrans = this.contTrans + 1;
-          }
-        }
-
+    this._operatorService.getOperator(this.branchOffice['_id']).subscribe(data => {
+        this.operator = data;
+        this.contTrans = data.length;
       });
   }
 
-  public getDataTrans(index){
-    this.dataTrans = this.trans[index];
+  public getDataOperator(index){
+    this.dataOperator = this.operator[index];
   }
 
   public questionYN(index){
-    this.dataTrans1 = this.trans[index];
+    this.dataOperator1 = this.operator[index];
     this.showModalBox = true;
   }
 
@@ -59,7 +55,7 @@ export class OperadorComponent implements OnInit {
       return;
     }
 
-    let carrier = new User(
+    let operator = new Operator(
       forma.value.name,
       forma.value.email,
       forma.value.user,
@@ -70,7 +66,7 @@ export class OperadorComponent implements OnInit {
       this.branchOffice
     );
 
-    this._transService.addTrans(carrier).subscribe((data: any) => {
+    this._operatorService.addOperator(operator).subscribe((data: any) => {
       this.getOperador();
       this.closebutton.nativeElement.click();
     });

@@ -39,4 +39,17 @@ export class ConvenioService {
 
     return this.http.post(url, convenio, { headers }).pipe(map((data: any) => data));
   }
+
+  delConvenio(idConv: string){
+    let token = localStorage.getItem('tokenBT');
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/agreement/' + idConv;
+
+    return this.http.delete(url, { headers }).pipe(map((data: any) => data));
+  }
 }

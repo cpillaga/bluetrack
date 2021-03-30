@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { User } from '../../models/carrier.model';
+import { Carrier } from '../../models/carrier.model';
 import { GeneralService } from '../../services/general.service';
 import { TransService } from '../../services/transportista.service';
 import Swal from 'sweetalert2';
@@ -14,10 +14,11 @@ export class TransportistaComponent implements OnInit {
   
   public name: string;
   public _id: string;
-  public trans: User[] = [];
+  public trans: Carrier[] = [];
   public branchOffice: string;
-  public dataTrans: User = new User(null, null,null,null, null,null,null,null);
-  public dataTrans1: User = new User(null, null,null,null, null,null,null,null);;
+  public business: string;
+  public dataCarrier: Carrier = new Carrier(null, null,null,null, null,null,null,null);
+  public dataCarrier1: Carrier = new Carrier(null, null,null,null, null,null,null,null);;
   public showModalBox: boolean = false;
   public texto: string;
 
@@ -32,12 +33,13 @@ export class TransportistaComponent implements OnInit {
   ngOnInit() {
     this._id = localStorage.getItem('idBT');
     this.branchOffice = JSON.parse(localStorage.getItem('sucursalBT')) ;
+    this.business = JSON.parse(localStorage.getItem('empresaBT')) ;
     this.getTrans();
   }
 
   public getTrans(){
     this.contTrans = 0;
-    this._transService.getTrans(this.branchOffice['_id']).subscribe(data => {
+    this._transService.getTrans(this.business['_id']).subscribe(data => {
        
         for (let i = 0; i < data.length; i++) {
           if (data[i].role == 'Transportista') {
@@ -49,13 +51,13 @@ export class TransportistaComponent implements OnInit {
       });
   }
 
-  public getDataTrans(index){
-    this.dataTrans = this.trans[index];
+  public getDataCarrier(index){
+    this.dataCarrier = this.trans[index];
   }
 
   public questionYN(index){
-    this.dataTrans1 = this.trans[index];
-    const estado = this.dataTrans1['status'];
+    this.dataCarrier1 = this.trans[index];
+    const estado = this.dataCarrier1['status'];
 
     if (estado === "true") {
       const swalWithBootstrapButtons = Swal.mixin({
@@ -67,7 +69,7 @@ export class TransportistaComponent implements OnInit {
       })
 
       swalWithBootstrapButtons.fire({
-        text: "Seguro desea eliminar a " + this.dataTrans1.name + "?",
+        text: "Seguro desea eliminar a " + this.dataCarrier1.name + "?",
         icon: 'error',
         showCancelButton: true,
         confirmButtonText: 'Si',
@@ -89,7 +91,7 @@ export class TransportistaComponent implements OnInit {
       })
       
       swalWithBootstrapButtons.fire({
-        text: "Seguro desea habilitar a " + this.dataTrans1.name + "?",
+        text: "Seguro desea habilitar a " + this.dataCarrier1.name + "?",
         icon: 'error',
         showCancelButton: true,
         confirmButtonText: 'Si',
@@ -110,7 +112,7 @@ export class TransportistaComponent implements OnInit {
       return;
     }
 
-    let carrier = new User(
+    let carrier = new Carrier(
       forma.value.name,
       forma.value.email,
       forma.value.user,
@@ -118,7 +120,7 @@ export class TransportistaComponent implements OnInit {
       'Transportista',
       forma.value.phone,
       forma.value.address,
-      this.branchOffice
+      this.business
     );
 
     this._transService.addTrans(carrier).subscribe((data: any) => {
@@ -128,16 +130,16 @@ export class TransportistaComponent implements OnInit {
   }
 
   public deleteTrans(){
-    let idT = this.dataTrans1._id;
-   
+    let idT = this.dataCarrier1._id;
+
     this._transService.deleteTrans(idT).subscribe(resp => {
       this.getTrans();
     });
   }
 
   public habilitaTrans(){
-    let idT = this.dataTrans1._id;
-  
+    let idT = this.dataCarrier1._id;
+
     this._transService.habilitaTrans(idT).subscribe(resp => {
       this.getTrans();
     });

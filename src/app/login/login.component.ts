@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Business } from '../models/business.model';
-import { AutenticacionService } from '../services/autenticacion.service';
+import { OperatorService } from '../services/operator.service';
 import { NgForm } from '@angular/forms';
 import { GeneralService } from '../services/general.service';
 
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   email: string;
 
   constructor(
-    public _autenticacionService: AutenticacionService,
+    public _operatorService: OperatorService,
     public _generalService: GeneralService,
     public router: Router
   ) { }
@@ -33,14 +33,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this._autenticacionService.login(forma.value.email, forma.value.password)
+    this._operatorService.login(forma.value.email, forma.value.password)
       .subscribe(correcto => {
+        console.log(correcto);
         localStorage.setItem("tokenBT", correcto.token);
-        this._generalService.getSucursal(correcto.user.branchOffice).subscribe(resp => {
+        this._generalService.getSucursal(correcto.operator.branchOffice).subscribe(resp => {
           if(resp[0].status == "true" && resp[0].business.status == "true" ){
             localStorage.setItem("sucursalBT", JSON.stringify(resp[0]));
             localStorage.setItem("empresaBT", JSON.stringify(resp[0].business));
-            localStorage.setItem("idBT", correcto.user._id);
+            localStorage.setItem("idBT", correcto.operator._id);
             this.router.navigate(['/home']);
           }else{
             localStorage.removeItem('tokenBT');

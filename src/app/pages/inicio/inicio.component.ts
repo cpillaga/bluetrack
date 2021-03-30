@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../../services/websocket.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { DetailRequest, Request } from '../../models/request.model';
+import { GeneralService } from '../../services/general.service';
+import { TransService } from '../../services/transportista.service';
 
 @Component({
   selector: 'app-inicio',
@@ -19,19 +21,14 @@ export class InicioComponent implements OnInit {
 
   constructor(
     // public wbSocket: WebSocketService,
-    public _requestService: SolicitudService
+    public _requestService: SolicitudService, 
+    public _generalService: GeneralService,
+    public _transService: TransService
   ) { 
   }
 
   ngOnInit() {
-
-    // this._requestService.setSolicitud();
-
-    // setTimeout(() => {
-      // this._requestService.getSolicitudWS();
-
       this.getRequest();
-    // }, 500);
   }
 
   getRequest(){
@@ -55,5 +52,6 @@ export class InicioComponent implements OnInit {
       }
     });
   }
+
 
 }

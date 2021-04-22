@@ -16,7 +16,7 @@ export class SolicitudService {
     public wsSertvice: WebSocketService
   ) { }
 
-  getRequestPendiente(id){
+  getAllRequest(id){
     let token = localStorage.getItem('tokenBT');
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -24,6 +24,20 @@ export class SolicitudService {
     });
 
     const url = URL_SERVICE.url + '/request/sucursal/' + id;
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data.request;
+        }));
+  }
+
+  getRequestPendiente(id){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/request/sucursal/pendiente/' + id;
     return this.http.get(url, { headers })
         .pipe(map((data: any) => {
           return data.request;
@@ -56,6 +70,22 @@ export class SolicitudService {
   setSolicitud(){
     const sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
     const idSucursal = sucursal['_id'];
+
     this.wsSertvice.emit('getSolicitud', idSucursal);
+  }
+
+  changeStatus(id: string, estado: string){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/request/' + id + '/' + estado;
+
+    return this.http.delete(url, { headers })
+        .pipe(map((data: any) => {
+          return data.request;
+        }));
   }
 }

@@ -66,4 +66,18 @@ export class TransService {
 
       return this.http.delete(url, { headers }).pipe(map((data: any) => data));
     }
+
+    getTransDisp(idEmp){
+      let token = localStorage.getItem('tokenBT');
+      const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          token
+      });
+
+      const url = URL_SERVICE.url + '/carrier/disponible/' + idEmp;
+      return this.http.get(url, { headers })
+          .pipe(map((data: any) => {
+            return data.carrier;
+          }));
+    }
 }

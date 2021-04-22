@@ -10,6 +10,7 @@ export class Request {
         public comment: string, 
         public client: string, 
         public branchOffice: string,
+        public receiver: string,
         public _id?: string
     ){}
 }
@@ -22,7 +23,6 @@ export class DetailRequest {
         public total: number,
         public img: string,
         public request: string,
-        public receiver: string,
         public _id?: string
     ){}
 }

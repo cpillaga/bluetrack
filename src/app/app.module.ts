@@ -19,6 +19,7 @@ import { URL_SERVICE } from './config/config';
 import { SolicitudService } from './services/solicitud.service';
 import { ClientService } from './services/client.service';
 import { ConvenioService } from './services/convenio.service';
+import { ShippingAgreementService } from './services/envio.service';
 
 const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
 
@@ -44,7 +45,8 @@ const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
     SolicitudService,
     WebSocketService,
     ClientService,
-    ConvenioService
+    ConvenioService,
+    ShippingAgreementService
   ],
   bootstrap: [AppComponent]
 

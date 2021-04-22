@@ -82,4 +82,18 @@ export class GeneralService{
                         resp.canton
                     );
     }
+
+    sendMsj(body){
+        let token = localStorage.getItem('tokenBT');
+        const headers = new HttpHeaders({
+            token
+        });
+
+        const url = URL_SERVICE.url + '/mensaje' ;
+
+        return this.http.post( url, body, {headers} )
+            .map( (resp: any) =>
+                resp
+            );
+    }
 }

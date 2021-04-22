@@ -17,6 +17,7 @@ import { TransportistaComponent } from './transportista/transportista.component'
 import { SolicitudComponent } from './solicitud/solicitud.component';
 import { OperadorComponent } from './operador/operador.component';
 import { ConvenioComponent } from './convenio/convenio.component';
+import { EnviosComponent } from './envios/envios.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ConvenioComponent } from './convenio/convenio.component';
         SolicitudComponent,
         OperadorComponent,
         ConvenioComponent,
+        EnviosComponent,
     ],
     exports: [
         PagesComponent,

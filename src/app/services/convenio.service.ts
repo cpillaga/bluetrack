@@ -52,4 +52,17 @@ export class ConvenioService {
 
     return this.http.delete(url, { headers }).pipe(map((data: any) => data));
   }
+
+  updConvenio(idConvenio: string, convenio: Agreement){
+    let token = localStorage.getItem('tokenBT');
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/agreement/' + idConvenio;
+
+    return this.http.put(url, convenio, { headers }).pipe(map((data: any) => data));
+  }
 }

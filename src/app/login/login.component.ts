@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
 
     this._operatorService.login(forma.value.email, forma.value.password)
       .subscribe(correcto => {
-        console.log(correcto);
         localStorage.setItem("tokenBT", correcto.token);
         this._generalService.getSucursal(correcto.operator.branchOffice).subscribe(resp => {
           if(resp[0].status == "true" && resp[0].business.status == "true" ){
@@ -48,7 +47,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/login']);
           }
         }, (err) => {
-          console.log("error");
           console.log(err);
         });
       });

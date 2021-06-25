@@ -8,6 +8,7 @@ import { Form, NgForm } from '@angular/forms';
 import { Carrier } from '../../models/carrier.model';
 import { ShippingAgreement, DetailShippingAgreement, StatusShippingAgreement } from '../../models/envio.model';
 import { ShippingAgreementService } from '../../services/envio.service';
+import moment = require('moment');
 
 @Component({
   selector: 'app-inicio',
@@ -20,6 +21,11 @@ export class InicioComponent implements OnInit {
   sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
   idSucursal = this.sucursal['_id'];
   cantSuc = this.sucursal['canton'].description;
+
+
+  envios: ShippingAgreement[] = [];
+  detalleEnvio: DetailShippingAgreement[] = [];
+
 
   empresa = JSON.parse(localStorage.getItem("empresaBT"));
   idEmpr = this.empresa['_id'];
@@ -48,6 +54,12 @@ export class InicioComponent implements OnInit {
   ngOnInit() {
       this.getRequest();
       this.getTransDisp();
+      this.getEnviosHoy();
+
+      // 2021-05-20T18:10:23.182Z
+      // 2021-05-20T12:26:29.440+00:00
+
+
   }
 
   getRequest(){
@@ -73,16 +85,21 @@ export class InicioComponent implements OnInit {
   }
 
   accept(form: NgForm){
-    let rastreo = this.generateCode();
-    let dateA = new Date().toISOString();
+    const rastreo = this.generateCode();
+    // let dateA = new Date().toISOString();
 
-    let envio: ShippingAgreement = {
+    const fecha = moment().format('YYYY-MM-DD');
+    const hora = moment().format('HH:mm:ss');
+
+    const dateA = fecha+"T"+hora+".182Z";
+
+    const envio: ShippingAgreement = {
       date: dateA,
       subtotal: this.selectrequest.subtotal,
       iva: this.selectrequest.iva,
       total: this.selectrequest.total,
       status: 'Pendiente',
-      guide: form.value.guide,
+      guide: this.selectrequest.guide,
       type: 'convenio',
       tracking: rastreo,
       carrier: form.value.transportista,
@@ -122,16 +139,15 @@ export class InicioComponent implements OnInit {
             this._envioService.addStatus(estado).subscribe(respStatus => {
               this._requestService.changeStatus(this.selectrequest._id, 'Aceptado').subscribe(respRe => {
 
-                let mensaje = `Su solicitud ha sido aprobada. \n Código de rastreo: ${envio.tracking}`;
+                const mensaje = `Su solicitud ha sido aprobada. \n Código de rastreo: ${envio.tracking}`;
 
                 let envioMensaje = {
                     destinatario: this.selectrequest.client['email'],
                     asunto: 'Solicitud Aprobada',
-                    mensaje: mensaje
+                    mensaje
                 };
 
                 this._generalService.sendMsj(envioMensaje).subscribe(respMsj => {
-                  console.log(respMsj);
                   this.getRequest();
                   this.closebuttonacce.nativeElement.click();
                 });
@@ -165,5 +181,17 @@ export class InicioComponent implements OnInit {
     } 
 
     return contraseña;
+  }
+
+  getEnviosHoy(){
+    this._envioService.getEnviosHoy(this.idSucursal).subscribe(resp => {
+      this.envios = resp;
+    });
+  }
+
+  getDetalleEnvio(idEnvio){
+    this._envioService.getDetallesEnvio(idEnvio).subscribe(resp => {
+      this.detalleEnvio = resp;
+    });
   }
 }

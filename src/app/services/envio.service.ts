@@ -67,4 +67,34 @@ export class ShippingAgreementService {
           return data.shippingAgreement;
         }));
   }
+
+  getEnviosHoy(idSuc: string){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/shippingAgreement/hoy/' + idSuc;
+
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data.shippingAgreement;
+        }));
+  }
+
+  getDetallesEnvio(idSol){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/agreementDetail/' + idSol;
+
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data.agreementDetail;
+        }));
+  }
 }

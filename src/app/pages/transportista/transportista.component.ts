@@ -48,10 +48,12 @@ export class TransportistaComponent implements OnInit {
           }
         }
 
-      });
+    }, (err) => {
+      console.log(err);
+    });
   }
 
-  public getDataCarrier(index){
+  public getDataTrans(index){
     this.dataCarrier = this.trans[index];
   }
 

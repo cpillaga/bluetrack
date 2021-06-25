@@ -8,6 +8,7 @@ export class Request {
         public total: number, 
         public status: string, 
         public comment: string, 
+        public guide: string,
         public client: string, 
         public branchOffice: string,
         public receiver: string,

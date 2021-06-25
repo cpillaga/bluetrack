@@ -4,7 +4,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Listado Envíos</h4>
+                        <h4 class="title">Listado de envíos hoy</h4>
                         <p class="category"></p>
                     </div>
                     <div class="content table-responsive table-full-width">
@@ -14,16 +14,16 @@
                                     <th class="text-center">#</th>
                                     <th>Nombre</th>
                                     <th>Ruta</th>
-                                    <th>Concepto</th>
+                                    <th>Estado</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody *ngFor="let send of envios; let i = index">
                                 <tr>
                                     <td class="text-center">1</td>
-                                    <td>Juan Pablo Polo</td>
-                                    <td>Cuenca - Quito</td>
-                                    <td class="text-eye">4 Rollos</td>
+                                    <td>{{send.client.name}}</td>
+                                    <td>{{send.receiver.canton.description}}</td>
+                                    <td>{{send.status}}</td>
                                     <td class="td-actions text-center">
                                         <a href="#" rel="tooltip" title="Ver Detalle" class="btn btn-primary btn-simple btn-xs">
                                             <i class="fa fa-eye"></i>
@@ -126,15 +126,6 @@
                 <div class="modal-body text-center">
 
                     <div class="content">
-                        <div class="row">
-                            <label class="col-md-4 col-form-label" style="margin-top: 10px;"># Guía:</label>
-                            <div class="col-md-8">
-                                <div class="form-group has-default">
-                                    <input type="text" id="guide" name="guide" [ngModel]="guide" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <label class="col-md-4 col-form-label" style="margin-top: 10px;">Transportista:</label>
                             <div class="col-md-8">

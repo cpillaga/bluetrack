@@ -145,7 +145,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 Modificar Convenio
-                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+                <button type="button" #closebuttonUpd class="close" data-dismiss="modal">&times;</button>
             </div>
             <form class="form-horizontal" #updConv="ngForm" (ngSubmit)="updConvenio(updConv);" autocomplete="off">
                 <div class="modal-body text-center">
@@ -201,7 +201,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Precio:</label>
                                 <div class="col-md-4">
-                                    <input type="text" placeholder="Correo cliente" [ngModel]="convenioUpd.price" onkeypress="return filterFloat(event, this);" class="form-control" id="precio" name="precio">
+                                    <input type="text" placeholder="Ingrese precio" [ngModel]="convenioUpd.price" onkeypress="return filterFloat(event, this);" class="form-control" id="precio" name="precio">
                                 </div>
 
                             </div>
@@ -213,7 +213,7 @@
                         <div class="form-group">
                             <label class="col-md-6"></label>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-fill btn-info">Agregar</button>
+                                <button type="submit" class="btn btn-fill btn-info">Modificar</button>
                             </div>
                         </div>
                     </div>

@@ -28,6 +28,8 @@ export class ConvenioComponent implements OnInit {
 
   public updData = false;
 
+  contBtnUpd = 0;
+
   provincia: string;
   pidProv: string;
 
@@ -39,7 +41,10 @@ export class ConvenioComponent implements OnInit {
   cantones: Canton[] = [];
   convenios: Agreement[] = [];
 
+  idConvenio: string;
+
   @ViewChild('closebutton',  {static: false}) closebutton;
+  @ViewChild('closebuttonUpd',  {static: false}) closebuttonUpd;
 
   constructor(
     public _provCant: GeneralService,
@@ -109,49 +114,47 @@ export class ConvenioComponent implements OnInit {
   
   updConvenio(convenio: NgForm){
 
-    console.log(convenio.value);
+    this.contBtnUpd += 1;
+
     const sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
     const cantonSucursal = sucursal['canton'];
     const idSucursal = sucursal['_id'];
 
     if (convenio.valid && this.imgTemp != null) {
-      console.log("entro 1");
 
-      this.getClient(convenio.value.cliente);
-
-      setTimeout(() => {
-        if (this.idClient == "") {
+      this._clienService.getClient(convenio.value.cliente).subscribe(resp => {
+        if (resp.client.length === 0) {
+          this.idClient = "";
           Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'El cliente no existe!'
           });
         }else{
-          console.log(convenio);
-          // this._provCant.subirImg(this.imgTemp).then(url => {
-  
-          //   const convenios: Agreement = {
-          //     description: convenio.value.descripcion,
-          //     price: convenio.value.precio,
-          //     cantonOrigen: cantonSucursal,
-          //     cantonDestino: convenio.value.canton,
-          //     img: url,
-          //     branchOffice: idSucursal,
-          //     client: this.idClient
-          //   };
-  
-          //   this._convenioService.addConvenio(convenios).subscribe(resp => {
-          //     this.getConvenio();
-          //     this.closebutton.nativeElement.click();
-          //   }, (err) => {
-          //     console.log(err);
-          //   });
-          // });
-        }
-      }, 200);
-      console.log("entro 2");
+          this.idClient = resp.client[0]._id;
 
-     
+          this._provCant.subirImg(this.imgTemp).then(url => {
+  
+            const convenios: Agreement = {
+              description: convenio.value.descripcion,
+              price: convenio.value.precio,
+              cantonOrigen: cantonSucursal,
+              cantonDestino: convenio.value.canton,
+              img: url,
+              branchOffice: idSucursal,
+              client: this.idClient
+            };
+
+            this._convenioService.updConvenio(this.idConvenio, convenios).subscribe(resp1 => {
+              this.getConvenio();
+              this.closebuttonUpd.nativeElement.click();
+            }, (err) => {
+              console.log(err);
+            });
+          });
+
+        }
+     });
     }else{
       Swal.fire({
         icon: 'error',
@@ -163,11 +166,9 @@ export class ConvenioComponent implements OnInit {
 
   getClient(mail){
     this._clienService.getClient(mail).subscribe(resp => {
-      if (resp.client.length == 0) {
-        console.log("entro aqui");
+      if (resp.client.length === 0) {
         this.idClient = "";
       }else{
-        console.log("entro aca");
         this.idClient = resp.client[0]._id;
       }
     });
@@ -188,7 +189,6 @@ export class ConvenioComponent implements OnInit {
   getData(convenio: Agreement){
     this.convenioUpd = convenio;
 
-    console.log(this.convenioUpd);
     this.provincia = this.convenioUpd.cantonDestino['province'].descripcion;
     this.pidProv = this.convenioUpd.cantonDestino['province']._id;
 
@@ -199,6 +199,7 @@ export class ConvenioComponent implements OnInit {
 
     this.imgTemp = convenio.img;
     this.updData = true;
+    this.idConvenio = convenio._id;
   }
 
   public selectImage(file: File){

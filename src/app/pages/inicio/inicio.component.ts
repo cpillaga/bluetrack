@@ -25,7 +25,7 @@ export class InicioComponent implements OnInit {
 
   envios: ShippingAgreement[] = [];
   detalleEnvio: DetailShippingAgreement[] = [];
-
+  
 
   empresa = JSON.parse(localStorage.getItem("empresaBT"));
   idEmpr = this.empresa['_id'];
@@ -33,8 +33,10 @@ export class InicioComponent implements OnInit {
   selectrequest: Request;
   request: Request[] = [];
   detailReq: DetailRequest[] = [];
+
   arrayDR: DetailRequest[] = [];
   dataDetalle: boolean = false;
+  dataDetalleEnvio: boolean = false;
   idReq: string = "";
 
   carriers: Carrier[] = [];
@@ -192,6 +194,8 @@ export class InicioComponent implements OnInit {
   getDetalleEnvio(idEnvio){
     this._envioService.getDetallesEnvio(idEnvio).subscribe(resp => {
       this.detalleEnvio = resp;
+      console.log(this.detalleEnvio);
+      this.dataDetalleEnvio = true;
     });
   }
 }

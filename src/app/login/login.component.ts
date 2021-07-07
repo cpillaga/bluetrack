@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Business } from '../models/business.model';
 import { OperatorService } from '../services/operator.service';
@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit {
   public token;
 
   email: string;
+  emailUser: string;
+
+  @ViewChild('closebutton',  {static: false}) closebutton;
 
   constructor(
     public _operatorService: OperatorService,
@@ -52,4 +55,12 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  public recoverPsw(forma: NgForm){
+    let email = forma.value.emailUser;
+
+    this._operatorService.recoverPsw(email).subscribe(resp => {
+      console.log(resp);
+      this.closebutton.nativeElement.click();
+    });
+  }
 }

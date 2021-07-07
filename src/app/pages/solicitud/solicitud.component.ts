@@ -162,7 +162,7 @@ export class SolicitudComponent implements OnInit {
             this._envioService.addStatus(estado).subscribe(respStatus => {
               this._requestService.changeStatus(this.selectrequest._id, 'Aceptado').subscribe(respRe => {
 
-                const mensaje = `Su solicitud ha sido aprobada. \n Código de rastreo: ${envio.tracking}`;
+                const mensaje = `Su solicitud ha sido aprobada. <br><br> Código de rastreo: ${envio.tracking}`;
 
                 let envioMensaje = {
                     destinatario: this.selectrequest.client['email'],

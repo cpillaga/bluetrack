@@ -70,7 +70,7 @@ export class OperatorService {
         .pipe(map((data: any) => {
           return data.operator;
         }));
-}
+  }
 
   deleteTrans(id){
 
@@ -96,5 +96,15 @@ export class OperatorService {
     const url = URL_SERVICE.url + '/operator/habilitar/' + id;
 
     return this.http.delete(url, { headers }).pipe(map((data: any) => data));
+  }
+
+  recoverPsw(email){
+    const url = URL_SERVICE.url + '/ope/recoverPsw';
+
+    let operator = {
+      email
+    };
+
+    return this.http.put(url, operator).pipe(map((data: any) => data));
   }
 }

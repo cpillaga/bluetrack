@@ -4,6 +4,7 @@ import { Business } from '../models/business.model';
 import { OperatorService } from '../services/operator.service';
 import { NgForm } from '@angular/forms';
 import { GeneralService } from '../services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -40,17 +41,32 @@ export class LoginComponent implements OnInit {
       .subscribe(correcto => {
         localStorage.setItem("tokenBT", correcto.token);
         this._generalService.getSucursal(correcto.operator.branchOffice).subscribe(resp => {
-          if(resp[0].status == "true" && resp[0].business.status == "true" ){
+          if(resp[0].status == 'true' && resp[0].business.status == "true" ){
             localStorage.setItem("sucursalBT", JSON.stringify(resp[0]));
             localStorage.setItem("empresaBT", JSON.stringify(resp[0].business));
             localStorage.setItem("idBT", correcto.operator._id);
             this.router.navigate(['/home']);
           }else{
             localStorage.removeItem('tokenBT');
-            this.router.navigate(['/login']);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Credenciales Incorrectas'
+            });
+            // this.router.navigate(['/login']);
           }
         }, (err) => {
-          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Credenciales Incorrectas'
+          });
+        });
+      }, (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Credenciales Incorrectas'
         });
       });
   }

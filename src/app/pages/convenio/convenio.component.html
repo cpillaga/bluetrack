@@ -35,8 +35,11 @@
                                         <a rel="tooltip" title="Editar" (click)="getData(conv);" data-toggle="modal" data-target="#updConvenio" class="btn btn-primary btn-simple btn-xs">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs" (click)="quesetionYN(conv._id, conv.client.name)">
+                                        <a rel="tooltip" title="Eliminar" *ngIf="conv.status == 'Activo'" class="btn btn-danger btn-simple btn-xs" (click)="quesetionYN(conv._id, conv.client.name, conv.status)">
                                             <i class="fa fa-times"></i>
+                                        </a>
+                                        <a rel="tooltip" title="Habilitar" *ngIf="conv.status == 'Inactivo'" class="btn btn-success btn-simple btn-xs" (click)="quesetionYN(conv._id, conv.client.name, conv.status)">
+                                            <i class="fa fa-check"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -129,7 +132,7 @@
                         <div class="form-group">
                             <label class="col-md-6"></label>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-fill btn-info">Agregar</button>
+                                <button type="submit" class="btn btn-fill btn-info" [disabled]="estadoBtnAdd">Agregar <img *ngIf="estadoBtnAdd" style="width: 18px; height: 18px;" src="assets/img/icons/preloader2.gif"></button>
                             </div>
                         </div>
                     </div>
@@ -185,7 +188,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Cliente:</label>
                                 <div class="col-md-4">
-                                    <input type="text" placeholder="Correo cliente" [ngModel]="convenioUpd.client.email" onkeypress="return sinComillas(event);" class="form-control" id="cliente" name="cliente">
+                                    <input type="text" placeholder="Correo cliente" readonly id="cliente" name="cliente" [ngModel]="convenioUpd.client.email" onkeypress="return sinComillas(event);" class="form-control">
                                 </div>
                                 <label class="col-md-2 col-form-label" style="margin-top: 10px;">Cantón:</label>
                                 <div class="col-md-4">
@@ -212,7 +215,7 @@
                         <div class="form-group">
                             <label class="col-md-6"></label>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-fill btn-info">Modificar</button>
+                                <button type="submit" class="btn btn-fill btn-info" [disabled]="estadoBtnAdd">Modificar <img *ngIf="estadoBtnAdd" style="width: 18px; height: 18px;" src="assets/img/icons/preloader2.gif"></button>
                             </div>
                         </div>
                     </div>

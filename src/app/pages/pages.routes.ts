@@ -6,6 +6,8 @@ import { OperadorComponent } from './operador/operador.component';
 import { ConvenioComponent } from './convenio/convenio.component';
 import { SolicitudComponent } from './solicitud/solicitud.component';
 import { EnviosComponent } from './envios/envios.component';
+import { RutasComponent } from './rutas/rutas.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const pagesRoutes: Routes = [
@@ -19,6 +21,8 @@ const pagesRoutes: Routes = [
             { path: 'convenio', component: ConvenioComponent},
             { path: 'solicitud', component: SolicitudComponent},
             { path: 'envio', component: EnviosComponent},
+            { path: 'rutas', component: RutasComponent},
+            { path: 'perfil', component: PerfilComponent},
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }

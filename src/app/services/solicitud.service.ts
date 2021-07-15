@@ -74,16 +74,21 @@ export class SolicitudService {
     this.wsSertvice.emit('getSolicitud', idSucursal);
   }
 
-  changeStatus(id: string, estado: string){
+  changeStatus(id: string, estado: string, commentA){
     let token = localStorage.getItem('tokenBT');
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         token
     });
 
-    const url = URL_SERVICE.url + '/request/' + id + '/' + estado;
+    let body = {
+      status: estado,
+      comment: commentA
+    }
 
-    return this.http.delete(url, { headers })
+    const url = URL_SERVICE.url + '/request/' + id;
+    
+    return this.http.put(url, body, { headers })
         .pipe(map((data: any) => {
           return data.request;
         }));

@@ -41,6 +41,9 @@ export class InicioComponent implements OnInit {
 
   carriers: Carrier[] = [];
   guide: string = "";
+  comments: string = "";
+
+  public estadoBtnAdd = false;
 
   @ViewChild('closebuttonacce',  {static: false}) closebuttonacce;
   @ViewChild('closebuttonaden',  {static: false}) closebuttonaden;
@@ -76,6 +79,8 @@ export class InicioComponent implements OnInit {
   }
 
   getDetalle(request){
+    this.estadoBtnAdd = false;
+
     this.detailReq = [];
 
     this.selectrequest = request;
@@ -87,6 +92,7 @@ export class InicioComponent implements OnInit {
   }
 
   accept(form: NgForm){
+    this.estadoBtnAdd = true;
     const rastreo = this.generateCode();
     // let dateA = new Date().toISOString();
 
@@ -139,7 +145,7 @@ export class InicioComponent implements OnInit {
 
           if (contDet === this.detailReq.length) {
             this._envioService.addStatus(estado).subscribe(respStatus => {
-              this._requestService.changeStatus(this.selectrequest._id, 'Aceptado').subscribe(respRe => {
+              this._requestService.changeStatus(this.selectrequest._id, 'Aceptado', 'Solicitud Aprobada').subscribe(respRe => {
 
                 const mensaje = `Su solicitud ha sido aprobada. <br><br> Código de rastreo: ${envio.tracking}`;
 
@@ -150,8 +156,10 @@ export class InicioComponent implements OnInit {
                 };
 
                 this._generalService.sendMsj(envioMensaje).subscribe(respMsj => {
+                  console.log(respMsj);
                   this.getRequest();
                   this.closebuttonacce.nativeElement.click();
+                  
                 });
               });
             });
@@ -163,9 +171,22 @@ export class InicioComponent implements OnInit {
   }
 
 
-  denied(){
-    console.log("aca");
-    console.log(this.idReq);
+  denied(forma: NgForm){
+    this.estadoBtnAdd = true;
+    this._requestService.changeStatus(this.selectrequest._id, 'Negado', forma.value.comments).subscribe(resp => {
+      const mensaje = `Su solicitud ha sido negada. <br><br> Motivo: ${resp.comment}`;
+
+      let envioMensaje = {
+          destinatario: this.selectrequest.client['email'],
+          asunto: 'Solicitud Negada',
+          mensaje
+      };
+
+      this._generalService.sendMsj(envioMensaje).subscribe(respMsj => {
+        this.getRequest();
+        this.closebuttonaden.nativeElement.click();
+      });
+    });
   }
 
   getTransDisp(){

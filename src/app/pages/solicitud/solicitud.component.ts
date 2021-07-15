@@ -32,6 +32,10 @@ export class SolicitudComponent implements OnInit {
 
   empresa = JSON.parse(localStorage.getItem("empresaBT"));
   idEmpr = this.empresa['_id'];
+  comments: string="";
+
+
+  public estadoBtnAdd = false;
 
   @ViewChild('closebuttonacce',  {static: false}) closebuttonacce;
   @ViewChild('closebuttonaden',  {static: false}) closebuttonaden;
@@ -85,7 +89,7 @@ export class SolicitudComponent implements OnInit {
   obtenerGeneral(){
     this.reqSelect = [];
     let cont = 0;
-
+    
     for (let i = 0; i < this.request.length; i++) {
       if (this.request[i]['status'] != 'Pendiente') {
         this.reqSelect[cont] = this.request[i];
@@ -107,6 +111,7 @@ export class SolicitudComponent implements OnInit {
   }
 
   accept(form: NgForm){
+    this.estadoBtnAdd = true;
     const rastreo = this.generateCode();
     // let dateA = new Date().toISOString();
   
@@ -160,7 +165,7 @@ export class SolicitudComponent implements OnInit {
 
           if (contDet === this.detailReq.length) {
             this._envioService.addStatus(estado).subscribe(respStatus => {
-              this._requestService.changeStatus(this.selectrequest._id, 'Aceptado').subscribe(respRe => {
+              this._requestService.changeStatus(this.selectrequest._id, 'Aceptado', 'Solicitud Aprobada').subscribe(respRe => {
 
                 const mensaje = `Su solicitud ha sido aprobada. <br><br> Código de rastreo: ${envio.tracking}`;
 
@@ -173,6 +178,7 @@ export class SolicitudComponent implements OnInit {
                 this._generalService.sendMsj(envioMensaje).subscribe(respMsj => {
                   this.getRequest();
                   this.closebuttonacce.nativeElement.click();
+                  this.estadoBtnAdd = false;
                 });
               });
             });
@@ -194,6 +200,24 @@ export class SolicitudComponent implements OnInit {
     return contraseña;
   }
 
+  
+  denied(forma: NgForm){
+    this._requestService.changeStatus(this.selectrequest._id, 'Negado', forma.value.comments).subscribe(resp => {
+      const mensaje = `Su solicitud ha sido negada. <br><br> Motivo: ${resp.comment}`;
+
+      let envioMensaje = {
+          destinatario: this.selectrequest.client['email'],
+          asunto: 'Solicitud Negada',
+          mensaje
+      };
+
+      this._generalService.sendMsj(envioMensaje).subscribe(respMsj => {
+        this.getRequest();
+        this.closebuttonacce.nativeElement.click();
+        this.estadoBtnAdd = false;
+      });
+    });
+  }
 
 }
 

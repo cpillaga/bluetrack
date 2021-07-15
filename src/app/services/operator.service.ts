@@ -107,4 +107,49 @@ export class OperatorService {
 
     return this.http.put(url, operator).pipe(map((data: any) => data));
   }
+
+  getMiPerfil(idOpe){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/operator/id/' + idOpe;
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data.operator;
+        }));
+  }
+
+  updPerfil(operador){
+    let token = localStorage.getItem('tokenBT');
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/operator/' + operador.id;
+
+    return this.http.put(url, operador, { headers }).pipe(map((data: any) => data));
+  }
+
+  changePsw(id, passwordAnt, password){
+    let body = {
+      passwordAnt,
+      password
+    }
+    
+    let token = localStorage.getItem('tokenBT');
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/operator/password/' +id;
+
+    return this.http.put(url, body, { headers }).pipe(map((data: any) => data));
+  }
 }

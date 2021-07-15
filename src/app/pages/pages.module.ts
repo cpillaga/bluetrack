@@ -18,6 +18,8 @@ import { SolicitudComponent } from './solicitud/solicitud.component';
 import { OperadorComponent } from './operador/operador.component';
 import { ConvenioComponent } from './convenio/convenio.component';
 import { EnviosComponent } from './envios/envios.component';
+import { RutasComponent } from './rutas/rutas.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { EnviosComponent } from './envios/envios.component';
         OperadorComponent,
         ConvenioComponent,
         EnviosComponent,
+        RutasComponent,
+        PerfilComponent,
     ],
     exports: [
         PagesComponent,

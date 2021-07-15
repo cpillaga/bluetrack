@@ -20,6 +20,10 @@ import { SolicitudService } from './services/solicitud.service';
 import { ClientService } from './services/client.service';
 import { ConvenioService } from './services/convenio.service';
 import { ShippingAgreementService } from './services/envio.service';
+import { RutasService } from './services/rutas.service';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 
 const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
 
@@ -35,8 +39,11 @@ const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
     FormsModule,
     ReactiveFormsModule,
     PagesModule,
+    RouterModule,
     HttpClientModule,
     SocketIoModule.forRoot(config),
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [
     OperatorService,
@@ -46,7 +53,8 @@ const config: SocketIoConfig = { url: URL_SERVICE.ws, options: {} };
     WebSocketService,
     ClientService,
     ConvenioService,
-    ShippingAgreementService
+    ShippingAgreementService,
+    RutasService,
   ],
   bootstrap: [AppComponent]
 

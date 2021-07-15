@@ -43,6 +43,8 @@ export class ConvenioComponent implements OnInit {
 
   idConvenio: string;
 
+  public estadoBtnAdd = false;
+
   @ViewChild('closebutton',  {static: false}) closebutton;
   @ViewChild('closebuttonUpd',  {static: false}) closebuttonUpd;
 
@@ -68,13 +70,17 @@ export class ConvenioComponent implements OnInit {
   }
 
   addConvenio(convenio: NgForm){
-      const sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
-      const cantonSucursal = sucursal['canton'];
-      const idSucursal = sucursal['_id'];
+    this.estadoBtnAdd = true;
 
-      if (convenio.valid && this.imgTemp != null) {
-        this.getClient(convenio.value.cliente);
+    const sucursal = JSON.parse(localStorage.getItem("sucursalBT"));
+    const cantonSucursal = sucursal['canton'];
+    const idSucursal = sucursal['_id'];
 
+    if (convenio.valid && this.imgTemp != null) {
+      this.getClient(convenio.value.cliente);
+
+      setTimeout(() => {
+        
         if (this.idClient == "") {
           Swal.fire({
             icon: 'error',
@@ -83,7 +89,7 @@ export class ConvenioComponent implements OnInit {
           });
         }else{
           this._provCant.subirImg(this.imgTemp).then(url => {
-
+  
             const convenios: Agreement = {
               description: convenio.value.descripcion,
               price: convenio.value.precio,
@@ -93,26 +99,29 @@ export class ConvenioComponent implements OnInit {
               branchOffice: idSucursal,
               client: this.idClient
             };
-
+  
             this._convenioService.addConvenio(convenios).subscribe(resp => {
               this.getConvenio();
               this.closebutton.nativeElement.click();
+              this.estadoBtnAdd = false;
             }, (err) => {
               console.log(err);
             });
           });
         }
-      }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Debe llenar todos los campos'
-        });
-      }
+      }, 1000);
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Debe llenar todos los campos'
+      });
+    }
   }
 
   
   updConvenio(convenio: NgForm){
+    this.estadoBtnAdd = true;
 
     this.contBtnUpd += 1;
 
@@ -121,7 +130,6 @@ export class ConvenioComponent implements OnInit {
     const idSucursal = sucursal['_id'];
 
     if (convenio.valid && this.imgTemp != null) {
-
       this._clienService.getClient(convenio.value.cliente).subscribe(resp => {
         if (resp.client.length === 0) {
           this.idClient = "";
@@ -148,6 +156,7 @@ export class ConvenioComponent implements OnInit {
             this._convenioService.updConvenio(this.idConvenio, convenios).subscribe(resp1 => {
               this.getConvenio();
               this.closebuttonUpd.nativeElement.click();
+              this.estadoBtnAdd = false;
             }, (err) => {
               console.log(err);
             });
@@ -188,6 +197,8 @@ export class ConvenioComponent implements OnInit {
 
   getData(convenio: Agreement){
     this.convenioUpd = convenio;
+    
+    console.log(this.convenioUpd);
 
     this.provincia = this.convenioUpd.cantonDestino['province'].descripcion;
     this.pidProv = this.convenioUpd.cantonDestino['province']._id;
@@ -196,7 +207,7 @@ export class ConvenioComponent implements OnInit {
 
     this.canton = this.convenioUpd.cantonDestino['description'];
     this.pidCant = this.convenioUpd.cantonDestino['_id'];
-
+    
     this.imgTemp = convenio.img;
     this.updData = true;
     this.idConvenio = convenio._id;
@@ -219,7 +230,7 @@ export class ConvenioComponent implements OnInit {
     }
   }
 
-  public quesetionYN(idConv, desc){
+  public quesetionYN(idConv, desc, status){
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-info',
@@ -227,9 +238,19 @@ export class ConvenioComponent implements OnInit {
       },
       buttonsStyling: false
     });
+    let texto = "";
+    let estado = "";
+
+    if (status == "Inactivo") {
+      texto = "habilitar";
+      estado = "Activo";
+    }else{
+      texto = "eliminar";
+      estado = "Inactivo";
+    }
 
     swalWithBootstrapButtons.fire({
-      text: "Seguro desea eliminar convenio de " + desc + "?",
+      text: "Seguro desea " + texto + " convenio de " + desc + "?",
       icon: 'error',
       showCancelButton: true,
       confirmButtonText: 'Si',
@@ -238,7 +259,7 @@ export class ConvenioComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this._convenioService.delConvenio(idConv).subscribe(resp => {
+        this._convenioService.delConvenio(idConv, estado).subscribe(resp => {
           this.getConvenio();
         });
       }

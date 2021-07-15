@@ -97,4 +97,34 @@ export class ShippingAgreementService {
           return data.agreementDetail;
         }));
   }
+
+  rastrearEnvio(idClient, rastreo){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/shippingAgreement/rastreo/' + idClient + '/' + rastreo;
+
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data;
+        }));
+  }
+
+  searchEnvio(termino, idSuc){
+    let token = localStorage.getItem('tokenBT');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        token
+    });
+
+    const url = URL_SERVICE.url + '/shippingAgreement/buscar/' + termino + '/' + idSuc;
+
+    return this.http.get(url, { headers })
+        .pipe(map((data: any) => {
+          return data.agreement;
+        }));
+  }
 }

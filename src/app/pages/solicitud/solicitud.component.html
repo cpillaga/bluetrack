@@ -26,7 +26,9 @@
                                             <th class="text-center">#</th>
                                             <th>Nombre</th>
                                             <th>Destino</th>
+                                            <th>Tipo</th>
                                             <th>Estado</th>
+                                            <th>Comentario</th>
                                             <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
@@ -35,13 +37,12 @@
                                             <td class="text-center">{{ i +1 }}</td>
                                             <td>{{ req.client.name }}</td>
                                             <td>{{ req.receiver.canton.description }}</td>
+                                            <td>{{ req.type }}</td>
                                             <td>{{ req.status }}</td>
-                                            <td *ngIf="req.status == 'Pendiente'" class="td-actions text-center">
-                                                <a href="#" rel="tooltip" title="Aceptar" data-toggle="modal" data-target="#acceptModal" class="btn btn-success btn-simple btn-xs">
-                                                    <i class="fa fa-check"></i>
-                                                </a>
-                                                <a href="#" rel="tooltip" title="Negar" class="btn btn-danger btn-simple btn-xs">
-                                                    <i class="fa fa-times"></i>
+                                            <td>{{ req.comment }}</td>
+                                            <td class="td-actions text-center">
+                                                <a href="" (click)="getDetalle(req)" data-toggle="modal" data-target="#viewDetail" rel="tooltip" title="Ver Detalle" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -55,6 +56,52 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade modal-mini modal-primary" *ngIf="dataDetalle" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px;">
+        <!-- <form #add="ngForm" id="addForm" autocomplete="off"> -->
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                Detalle Solicitud
+                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <input type="hidden" id="idReq" name="idReq" [ngModel]="idReq">
+                <div class="content table-responsive table-full-width">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Img</th>
+                                <th class="text-center">Detalle</th>
+                                <th class="text-center">Precio</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let det of detailReq; let i = index">
+                            <tr>
+                                <td class="text-center"><img src="{{det.img}}" width="32" height="32" style="border-radius: 100%;"></td>
+                                <td class="text-center">{{ det.description }}</td>
+                                <td class="text-center">{{ det.price }}</td>
+                                <td class="text-center">{{ det.quantity }}</td>
+                                <td class="text-center">{{ det.total }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" *ngIf="detailReq.status == 'Pendiente'">
+                <button type="button" class="btn btn-info btn-simple" data-toggle="modal" data-dismiss="modal" data-target="#acceptModal">Aceptar</button>
+                <button type="button" class="btn btn-danger btn-simple" data-toggle="modal" data-dismiss="modal" data-target="#deniedtModal">Negar</button>
+            </div>
+            <div class="modal-footer" *ngIf="detailReq.status != 'Pendiente'">
+                <button type="button" class="btn btn-info btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+</div>
+
 
 <div class="modal fade modal-mini modal-primary" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog " style="width: 400px;">
@@ -79,7 +126,36 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info btn-simple">Aceptar</button>
+                    <button type="submit" class="btn btn-info btn-simple" [disabled]="estadoBtnAdd">Aceptar <img *ngIf="estadoBtnAdd" style="width: 18px; height: 18px;" src="assets/img/icons/preloader.gif" ></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade modal-mini modal-primary" id="deniedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog " style="width: 400px;">
+        <form #add="ngForm" id="addForm" (ngSubmit)="denied(add);" autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Solicitud Negada
+                    <button type="button" #closebuttonaden class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="content">
+                        <div class="row">
+                            <label class="col-md-4 col-form-label" style="margin-top: 10px;">Motivo:</label>
+                            <div class="col-md-8">
+                                <textarea name="comments" id="comments" [ngModel]="comments" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn-simple" [disabled]="estadoBtnAdd">Aceptar <img *ngIf="estadoBtnAdd" src="assets/img/icons/preloader.gif" ></button>
                 </div>
             </div>
         </form>
